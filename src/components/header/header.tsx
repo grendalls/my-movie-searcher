@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   return (
     <header className={classes.header}>
-      <h1 className={classes.logo}>
+      <Link className={classes.logo} to="/">
         <FontAwesomeIcon icon={faVideo} className={classes.icon} />
         MovieSearcher
-      </h1>
+      </Link>
       <nav>
         <ul className={classes.links}>
           <li className={classes.link}>

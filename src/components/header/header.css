@@ -9,8 +9,14 @@
 }
 
 .logo {
-  align-self: stretch;
-  margin: 1rem 0;
+  padding: 1.5rem 0 ;
+  text-decoration: none;
+  color: white;
+  font-size: 28px;
+}
+.logo:hover,
+.logo:active {
+  color: wheat;
 }
 .icon {
   margin-right: 0.5rem;

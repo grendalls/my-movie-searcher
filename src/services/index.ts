@@ -25,4 +25,7 @@ export default class {
       console.log(error);
     }
   };
+  getMovieByName = (name: string ) => {
+
+  }
 }
