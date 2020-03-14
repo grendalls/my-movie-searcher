@@ -10,3 +10,5 @@ export interface IFilm {
   genre_ids: number[];
   poster_path: string;
 }
+
+export interface IFilmCard {}

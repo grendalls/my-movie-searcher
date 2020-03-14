@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-const MovieCards = (props: any) => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+import { fetchBestMovies } from '../../actions';
+import { getImageUrl } from '../../helpers';
 
-export default connect(null, null)(MovieCards);
+const MovieCards = (props: any) => {
+  useEffect(() => {
+    props.fetchBestMovies();
+  }, []);
+  return props.films.map(film => (
+    <img
+      style={{ width: '30%', height: '400px' }}
+      key={film.id}
+      src={getImageUrl(film.poster_path)}
+    />
+  ));
+};
+
+const mapStateToProps = state => {
+  console.log(state);
+  return { films: state };
+};
+
+export default connect(mapStateToProps, { fetchBestMovies })(MovieCards);

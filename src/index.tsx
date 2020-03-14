@@ -8,17 +8,6 @@ import './index.css';
 import App from './components/app';
 import store from './store';
 
-import Service from './services';
-import { getImageUrl } from './helpers';
-
-const service = new Service();
-
-service.getPopularMovies()
-  .then(res => res.data.results)
-  .then(results => {
-    results.forEach(result => console.log(getImageUrl(result.poster_path)));
-  });
-
 const app = (
   <Provider store={store}>
     <Router>
