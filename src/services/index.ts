@@ -7,7 +7,7 @@ interface IResponse {
   results: IFilm[];
 }
 
-export default class {
+class TmdbService {
   private API_KEY: string = 'cd4a5fa4bc9b6ae5833e11e6b27a7af6';
 
   private client: AxiosInstance = axios.create({
@@ -32,14 +32,15 @@ export default class {
       console.log(error);
     }
   };
-  getMovieByName = async (name: string, page?: number) => {
+
+  searchMovies = async (query: string, page?: number) => {
     try {
       const res: AxiosResponse<IResponse> = await this.client.get(
         '/search/movie',
         {
           params: {
             page,
-            query: name
+            query: encodeURI(query)
           }
         }
       );
@@ -48,4 +49,18 @@ export default class {
       console.log(error);
     }
   };
+  getMovieDetail = async (id: number) => {
+    try {
+      const res = await this.client.get(`movie/${id}`, {
+        params: {
+          append_to_response: 'similar,recommendations'
+        }
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
+
+export default new TmdbService();

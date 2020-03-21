@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchBestMovies } from '../../actions';
+import { fetchPopularMovies } from '../../actions';
 import { getImageUrl } from '../../helpers';
 import classes from './movie-cards.css';
 
 const MovieCards = (props: any) => {
   useEffect(() => {
-    props.fetchBestMovies();
+    props.fetchPopularMovies();
   }, []);
   return (
     <div className={classes.movieCards}>
@@ -22,4 +22,4 @@ const mapStateToProps = state => {
   return { films: state };
 };
 
-export default connect(mapStateToProps, { fetchBestMovies })(MovieCards);
+export default connect(mapStateToProps, { fetchPopularMovies })(MovieCards);

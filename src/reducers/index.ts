@@ -1,11 +1,13 @@
-import { FETCH_MOVIE_SUCCESS } from './../actions/action-type-keys';
-import { FETCH_MOVIE_STARTED } from '../actions/action-type-keys';
+import {
+  FETCH_POPULAR_MOVIES_STARTED,
+  FETCH_POPULAR_MOVIES_SUCCESS
+} from './../actions/action-type-keys';
 
 const rootReducer = (state = [], action) => {
   switch (action.type) {
-    case FETCH_MOVIE_STARTED:
+    case FETCH_POPULAR_MOVIES_STARTED:
       return state;
-    case FETCH_MOVIE_SUCCESS:
+    case FETCH_POPULAR_MOVIES_SUCCESS:
       return action.payload;
     default:
       return state;
