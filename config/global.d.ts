@@ -1,6 +1,6 @@
 declare module '*.css' {
-  const content: { [className: string]: string };
-  export = content;
+  const classes: { [key: string]: string };
+  export = classes;
 }
 declare module '*.png';
 declare module '*.jpg';

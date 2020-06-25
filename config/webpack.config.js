@@ -4,31 +4,31 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 
-const getStyleLoaders = IS_PRODUCTION => [
+const getStyleLoaders = (IS_PRODUCTION) => [
   IS_PRODUCTION ? MiniCssExtractPlugin.loader : 'style-loader',
   {
     loader: 'css-loader',
     options: {
       modules: {
-        localIdentName: '[name]__[local]__[hash:base64:5]'
+        localIdentName: '[name]__[local]__[hash:base64:5]',
       },
       importLoaders: 1,
       esModule: true,
-      sourceMap: true
-    }
+      sourceMap: IS_PRODUCTION,
+    },
   },
   {
     loader: 'postcss-loader',
     options: {
-      sourceMap: true,
+      sourceMap: IS_PRODUCTION,
       config: {
-        path: path.resolve(__dirname)
-      }
-    }
-  }
+        path: path.resolve(__dirname),
+      },
+    },
+  },
 ];
 
-const getPlugins = IS_PRODUCTION => {
+const getPlugins = (IS_PRODUCTION) => {
   if (IS_PRODUCTION) {
     return [
       new HtmlWebpackPlugin({
@@ -39,36 +39,36 @@ const getPlugins = IS_PRODUCTION => {
           removeRedundantAttributes: true,
           removeScriptTypeAttributes: true,
           removeStyleLinkTypeAttributes: true,
-          useShortDoctype: true
-        }
+          useShortDoctype: true,
+        },
       }),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].css'
+        filename: '[name].[contenthash].css',
       }),
-      new OptimizeCssAssetsWebpackPlugin()
+      new OptimizeCssAssetsWebpackPlugin(),
     ];
   }
   return [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'),
-      favicon: path.resolve(__dirname, '../src/assets/movie-searcher.ico')
+      favicon: path.resolve(__dirname, '../src/assets/movie-searcher.ico'),
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
   ];
 };
 
-module.exports = env => {
+module.exports = (env) => {
   const IS_PROD = env.production;
   return {
     entry: {
-      main: ['@babel/polyfill', './src/index.tsx']
+      main: ['@babel/polyfill', './src/index.tsx'],
     },
     mode: IS_PROD ? 'production' : 'development',
     output: {
       path: path.resolve(__dirname, '../build'),
       filename: '[name].[hash].js',
-      publicPath: '/'
+      publicPath: '/',
     },
     devtool: IS_PROD ? null : 'inline-source-map',
     target: 'web',
@@ -77,30 +77,42 @@ module.exports = env => {
       compress: true,
       port: 8000,
       hot: true,
-      historyApiFallback: true
+      historyApiFallback: true,
     },
     module: {
       rules: [
         {
           test: /\.tsx?$/,
           loader: 'babel-loader',
-          exclude: /node_modules/
+          exclude: /node_modules/,
         },
         {
           test: /\.css$/,
-          use: getStyleLoaders(IS_PROD)
+          use: getStyleLoaders(IS_PROD),
+        },
+        {
+          test: /\.s[ac]ss$/,
+          use: [
+            ...getStyleLoaders(IS_PROD),
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: IS_PROD,
+              },
+            },
+          ],
         },
         {
           test: /\.(png|jpe?g|gif)/,
           loader: 'url-loader',
           options: {
-            limit: 8192
-          }
-        }
-      ]
+            limit: 8192,
+          },
+        },
+      ],
     },
     resolve: {
-      extensions: ['.js', '.ts', '.tsx']
+      extensions: ['.js', '.ts', '.tsx'],
     },
     plugins: getPlugins(IS_PROD),
     optimization: IS_PROD
@@ -108,9 +120,9 @@ module.exports = env => {
           splitChunks: {
             chunks: 'all',
             minSize: 10000,
-            automaticNameDelimiter: '_'
-          }
+            automaticNameDelimiter: '_',
+          },
         }
-      : {}
+      : {},
   };
 };
